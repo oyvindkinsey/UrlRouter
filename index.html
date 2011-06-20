@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+    <head>
+        <title>UrlRouter</title>
+        <script type="text/javascript" src="UrlRouter.js">
+        </script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            function log(msg, data){
+                var sb = [msg];
+                sb.push("<pre>");
+                for (var key in data) 
+                    if (data.hasOwnProperty(key)) 
+                        sb.push("    " + key + " = " + data[key] + "\n");
+                sb.push("</pre>");
+                document.getElementById("divOutput").innerHTML = sb.join("") + "</pre>";
+            }
+            
+            
+            var rules = [["/:user_name/status/:action", function(data){
+                log("editing users data", data);
+            }
+            ], ["/inbox", function(data){
+                log("viewing the inbox", data);
+            }
+            ], ["/:user_name/settings", function(data){
+                log("editing the users settings", data);
+            }
+            ]];
+            
+            var router = new UrlRouter(rules);
+            router.compile();
+            
+            window.onhashchange = function(){
+                router.match(location.hash.substring(1)); // returns the data object if successfull, undefined if not.
+            };
+        </script>
+        <a href="#!/foobar/status/edit">Edit foobar's status</a>
+        <br/>
+        <a href="#!/inbox">View inbox</a>
+        <br/>
+        <a href="#!/foobar/settings">Edit foobar's settings</a>
+        <br/>
+        <div id="divOutput">
+        </div>
+    </body>
+</html>
