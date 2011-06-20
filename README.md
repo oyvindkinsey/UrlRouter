@@ -38,3 +38,8 @@ Now we can do things like
     window.onhashchange = function() {
     	router.match(locatin.hash); // returns the data object if successfull, undefined if not.
     }
+    
+If the router finds a successfull match, it will first execute its corresponding handler, 
+passing an object with the variables present as properties, and it will then return the data object itself.
+
+It is important that the rules are sorted in order so that the most specific rule comes first, eg `"/user/:username"` and then `"/user/"`.
